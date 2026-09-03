@@ -82,7 +82,7 @@ public class Robot extends TimedRobot {
       m_autonomousCommand.cancel();
     }
 
-    CommandScheduler.getInstance().schedule(shooter.setVoltage(4.0));
+    /*CommandScheduler.getInstance().schedule(shooter.setVoltage(4.0));*/
   }
 
   /** This function is called periodically during operator control. */
