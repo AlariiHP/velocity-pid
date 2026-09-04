@@ -20,7 +20,8 @@ public class Robot extends TimedRobot {
 
   private final RobotContainer m_robotContainer;
 
-  final Shooter shooter = new Shooter();
+  public Shooter shooter = new Shooter();
+  
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -31,6 +32,7 @@ public class Robot extends TimedRobot {
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
     Buttonbinding.configureButtonBinding(this);
+    
 
   }
 
