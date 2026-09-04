@@ -1,10 +1,14 @@
 package frc.robot.subsystems.shooter;
 
 import com.ctre.phoenix6.CANBus;
+import com.ctre.phoenix6.StatusSignal;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.controls.VoltageOut;
 import com.ctre.phoenix6.hardware.TalonFX;
+
+import edu.wpi.first.units.measure.AngularVelocity;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 
 public class ShooterIO {
@@ -30,6 +34,15 @@ public class ShooterIO {
         shooterMotor.setControl(velocityRequest.withVelocity(rps).withFeedForward(0.5));
     }
     
+    public double getVelocity(){
+        return shooterMotor.getVelocity().getValueAsDouble();
+    }
+
+    public void updateTelemetry(){
+        SmartDashboard.putNumber("Subsystems/Shooter", getVelocity());
+    }
+
+
     protected class Constants{
         protected class PID{
 

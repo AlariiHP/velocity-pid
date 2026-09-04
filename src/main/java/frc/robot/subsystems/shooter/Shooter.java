@@ -30,6 +30,14 @@ public class Shooter extends SubsystemBase {
         return runOnce(() -> shooterIO.setVelocity(rps));
     }
 
+    public Command getVelocity(){
+        return runOnce(() -> shooterIO.getVelocity());
+    }
+    
+    public Command updateTelemetry(){
+        return runOnce(() -> shooterIO.updateTelemetry());
+    }
+
     @Override
     public void periodic(){
 
