@@ -18,20 +18,21 @@ public class Buttonbinding {
 
     
     public static void configureButtonBinding(Robot robot){
-        Command OnShooter = robot.shooter.setVoltage(4.0);
-        Command OffShooter = robot.shooter.setVoltage(0.0);
+        Command OnVoltage = robot.shooter.setVoltage(4.0);
+        Command OffVoltage = robot.shooter.setVoltage(0.0);
+        Command OnVelocity = robot.shooter.setVelocity(4.0);
+        Command OffVelocity = robot.shooter.setVelocity(0.0);
 
         Trigger buttonY = new JoystickButton(driver, XboxController.Button.kY.value);
-
+        Trigger buttonX = new JoystickButton(driver, XboxController.Button.kX.value);
+        
         buttonY
-            .whileTrue(
-                OnShooter
-            )
-            .onFalse(
-                OffShooter
-            );
+            .whileTrue(OnVoltage)
+            .onFalse(OffVoltage);
 
-
+        buttonX
+            .whileTrue(OnVelocity)
+            .onFalse(OffVelocity);
 
     }
 
