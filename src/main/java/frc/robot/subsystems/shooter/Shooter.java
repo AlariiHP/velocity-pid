@@ -53,7 +53,7 @@ public class Shooter extends SubsystemBase {
     }
 
     @Override
-    public void perfdic(){
+    public void periodic(){
 
     }
 
