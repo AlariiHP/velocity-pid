@@ -25,7 +25,7 @@ public class Shooter extends SubsystemBase {
         shooterMotor = new OverTalonFX(config, canbus);
 
     }
-
+ 
     
     public Command setVoltage(double volts){
         return runOnce(() -> shooterMotor.setVoltage(volts));
