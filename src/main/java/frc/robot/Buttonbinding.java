@@ -32,7 +32,7 @@ public class Buttonbinding {
 
         Command OnVoltage = robotContainer.shooter.setVoltage(4.0);
         Command OffVoltage = robotContainer.shooter.setVoltage(0.0);
-        Command OnVelocity = robotContainer.shooter.setVelocity(4.0);
+        Command OnVelocity = robotContainer.shooter.setVelocity(60.0);
         Command OffVelocity = robotContainer.shooter.setVelocity(0.0);
 
         Trigger buttonY = new JoystickButton(driver, XboxController.Button.kY.value);
