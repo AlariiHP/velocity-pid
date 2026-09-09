@@ -33,7 +33,6 @@ public class Shooter extends SubsystemBase {
     }
 
     public double getTarget(){
-        System.out.println(target);
         return target;
     }
     
@@ -53,7 +52,7 @@ public class Shooter extends SubsystemBase {
     }
 
     private boolean isFinished(){
-        return (Math.abs( getTarget() - getVelocity()) < ShooterConstants.Control.acceptedError);
+        return (Math.abs( getTarget() - getVelocity()) < ShooterConstants.Control.AcceptedError);
     }
 
     private BooleanSupplier isFinishedSupplier() {

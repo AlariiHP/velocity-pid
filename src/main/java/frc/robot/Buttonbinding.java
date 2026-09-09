@@ -7,6 +7,7 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.robot.subsystems.arm.ArmConstants;
 import frc.robot.subsystems.shooter.ShooterConstants.*;
 
 
@@ -35,6 +36,8 @@ public class Buttonbinding {
 
         Trigger buttonY = new JoystickButton(driver, XboxController.Button.kY.value);
         Trigger buttonX = new JoystickButton(driver, XboxController.Button.kX.value);
+        Trigger buttonA = new JoystickButton(driver, XboxController.Button.kA.value);
+        
         
         buttonY
             .whileTrue(robotContainer.shooter.setVoltage(States.VoltageON))
@@ -43,6 +46,10 @@ public class Buttonbinding {
         buttonX
             .whileTrue(robotContainer.shooter.setVelocity(States.VelocityON))
             .onFalse(robotContainer.shooter.setVelocity(States.VoltageOFF));
+
+        buttonA
+            .whileTrue(robotContainer.arm.setPosition(ArmConstants.States.Position1))
+            .onFalse(robotContainer.arm.setPosition(ArmConstants.States.Position2));
 
     }
 

@@ -18,7 +18,7 @@ public class ShooterConstants {
             protected static double kP = 0.6;
             protected static double kV = 0.12;
             
-            protected static double acceptedError = 1;
+            protected static double AcceptedError = 1;
         }
 
     public class States {
