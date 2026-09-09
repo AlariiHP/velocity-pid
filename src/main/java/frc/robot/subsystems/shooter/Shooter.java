@@ -14,7 +14,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 public class Shooter extends SubsystemBase {
 
     protected OverTalonFX shooterMotor;
-    private double target = 0.0;
+    private double target;
     
     public static CANBus canbus = new CANBus("rio");
 
@@ -33,6 +33,7 @@ public class Shooter extends SubsystemBase {
     }
 
     public double getTarget(){
+        System.out.println(target);
         return target;
     }
     
@@ -42,8 +43,9 @@ public class Shooter extends SubsystemBase {
 
     
     public Command setVelocity(double rps){
-        setTarget(rps);
-        return run(() -> shooterMotor.setControl(velocityRequest.withVelocity(getTarget()))).until(isFinishedSupplier());
+        return 
+            runOnce(() -> setTarget(rps)) 
+            .andThen(run(() -> shooterMotor.setControl(velocityRequest.withVelocity(getTarget()))).until(isFinishedSupplier()));
     }
 
     public double getVelocity(){
@@ -63,7 +65,7 @@ public class Shooter extends SubsystemBase {
     
     public void updateTelemetry(){
         SmartDashboard.putNumber("Subsystems/Shooter/Velocity", getVelocity());
-        SmartDashboard.putNumber("Subsystems/Shooter/Velocity", getTarget());
+        SmartDashboard.putNumber("Subsystems/Shooter/Target", getTarget());
     }
 
     @Override

@@ -15,10 +15,19 @@ public class ShooterConstants {
 
             protected static double kI = 0.0;
             protected static double kD = 0.0;
-            protected static double kP = 0.8;
-            protected static double kV = 0.0;
+            protected static double kP = 0.6;
+            protected static double kV = 0.12;
             
             protected static double acceptedError = 1;
+        }
+
+    public class States {
+            public static double VoltageOFF = 0.0;
+            public static double VoltageON = 4.0;
+            public static double VelocityOFF = 0.0;
+            public static double VelocityON = 45.0;
+
+
         }
 
     public static int canId = 22;
