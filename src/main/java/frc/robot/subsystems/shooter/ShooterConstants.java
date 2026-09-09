@@ -18,8 +18,9 @@ public class ShooterConstants {
             protected static double kP = 0.8;
             protected static double kV = 0.0;
             
-        
+            protected static double acceptedError = 1;
         }
+
     public static int canId = 22;
 
     public static TalonFXConfiguration motorConfig() {

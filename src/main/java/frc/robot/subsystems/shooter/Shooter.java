@@ -1,5 +1,7 @@
 package frc.robot.subsystems.shooter;
 
+import java.util.function.BooleanSupplier;
+
 import com.ctre.phoenix6.CANBus;
 
 import com.ctre.phoenix6.controls.VelocityVoltage;
@@ -12,6 +14,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 public class Shooter extends SubsystemBase {
 
     protected OverTalonFX shooterMotor;
+    private double target = 0.0;
     
     public static CANBus canbus = new CANBus("rio");
 
@@ -24,7 +27,14 @@ public class Shooter extends SubsystemBase {
         shooterMotor = new OverTalonFX(ShooterConstants.motorConfig(), ShooterConstants.canId, canbus);
 
     }
- 
+    
+    public void setTarget(double targetSetter){
+        target = targetSetter;
+    }
+
+    public double getTarget(){
+        return target;
+    }
     
     public Command setVoltage(double volts){
         return runOnce(() -> shooterMotor.setVoltage(volts));
@@ -32,15 +42,28 @@ public class Shooter extends SubsystemBase {
 
     
     public Command setVelocity(double rps){
-        return runOnce(() -> shooterMotor.setControl(velocityRequest.withVelocity(rps)));
+        setTarget(rps);
+        return run(() -> shooterMotor.setControl(velocityRequest.withVelocity(getTarget()))).until(isFinishedSupplier());
     }
 
     public double getVelocity(){
         return shooterMotor.getVelocity().getValueAsDouble();
     }
+
+    private boolean isFinished(){
+        return (Math.abs( getTarget() - getVelocity()) < ShooterConstants.Control.acceptedError);
+    }
+
+    private BooleanSupplier isFinishedSupplier() {
+        BooleanSupplier supplier = 
+        () -> isFinished();
+        return supplier;
+    }
+    
     
     public void updateTelemetry(){
-        SmartDashboard.putNumber("Subsystems/Shooter", getVelocity());
+        SmartDashboard.putNumber("Subsystems/Shooter/Velocity", getVelocity());
+        SmartDashboard.putNumber("Subsystems/Shooter/Velocity", getTarget());
     }
 
     @Override
