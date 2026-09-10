@@ -41,27 +41,27 @@ public class Arm extends SubsystemBase{
     public Command setPosition(double rotations){
         return 
             runOnce(() -> setTarget(rotations)) 
-            .andThen(run(() -> armMotor.setControl(positionRequest.withPosition(getTarget()))).until(isFinishedSupplier()));
+            .andThen(run(() -> armMotor.setControl(positionRequest.withPosition(getTarget()))).until(() -> isFinished()));
     }
 
     public double getPosition(){
         return armMotor.getPosition().getValueAsDouble();
     }
 
-    private boolean isFinished(){
-        return (Math.abs( getTarget() - getPosition()) < ArmConstants.Control.AcceptedError);
+    private double getError(){
+        return (Math.abs( getTarget() - getPosition()));
     }
-
-    private BooleanSupplier isFinishedSupplier() {
-        BooleanSupplier supplier = 
-        () -> isFinished();
-        return supplier;
+    
+    private boolean isFinished(){
+        return getError() < ArmConstants.Control.AcceptedError;
     }
     
     
     public void updateTelemetry(){
         SmartDashboard.putNumber("Subsystems/Arm/Position", getPosition());
         SmartDashboard.putNumber("Subsystems/Arm/Target", getTarget());
+        SmartDashboard.putNumber("Subsystems/Arm/Error", getError());
+        
     }
 
     @Override
