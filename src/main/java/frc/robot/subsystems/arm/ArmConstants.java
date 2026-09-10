@@ -18,12 +18,11 @@ public class ArmConstants {
             protected static double kP = 0.0;
             protected static double kV = 0.0;
             
-            protected static double AcceptedError = 1;
-            protected static double TimeOut = 1; 
+            protected static double AcceptedError = 0.05;            protected static double TimeOut = 1; 
         }
 
     public class States {
-            public static double Position1 = 0.25;
+            public static double Position1 = 0.5;
             public static double Position2 = 0.0;
 
         }

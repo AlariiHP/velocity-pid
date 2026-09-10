@@ -64,7 +64,7 @@ public class Arm extends SubsystemBase{
 
     @Override
     public void periodic(){
-
+        System.out.println(isFinished());
     }
 
 }

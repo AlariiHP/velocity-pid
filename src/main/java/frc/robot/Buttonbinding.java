@@ -37,7 +37,7 @@ public class Buttonbinding {
         Trigger buttonY = new JoystickButton(driver, XboxController.Button.kY.value);
         Trigger buttonX = new JoystickButton(driver, XboxController.Button.kX.value);
         Trigger buttonA = new JoystickButton(driver, XboxController.Button.kA.value);
-        
+        Trigger buttonB = new JoystickButton(driver, XboxController.Button.kB.value);
         
         buttonY
             .whileTrue(robotContainer.shooter.setVoltage(States.VoltageON))
@@ -48,8 +48,12 @@ public class Buttonbinding {
             .onFalse(robotContainer.shooter.setVelocity(States.VoltageOFF));
 
         buttonA
-            .whileTrue(robotContainer.arm.setPosition(ArmConstants.States.Position1))
-            .onFalse(robotContainer.arm.setPosition(ArmConstants.States.Position2));
+            .whileTrue(robotContainer.arm.setPosition(ArmConstants.States.Position1));
+        
+        buttonB
+            .whileTrue(robotContainer.arm.setPosition(ArmConstants.States.Position2));
+        
+        
 
     }
 
