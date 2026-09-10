@@ -1,13 +1,17 @@
 package frc.robot.subsystems.arm;
 
+import com.ctre.phoenix6.configs.CANcoderConfiguration;
 import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
+import com.ctre.phoenix6.configs.FeedbackConfigs;
 import com.ctre.phoenix6.configs.MotorOutputConfigs;
 import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.configs.SlotConfigs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.configs.VoltageConfigs;
+import com.ctre.phoenix6.signals.FeedbackSensorSourceValue;
 import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
+import com.ctre.phoenix6.signals.SensorDirectionValue;
 
 public class ArmConstants {
 
@@ -18,7 +22,12 @@ public class ArmConstants {
             protected static double kP = 0.0;
             protected static double kV = 0.0;
             
-            protected static double AcceptedError = 0.05;            protected static double TimeOut = 1; 
+            protected static double AcceptedError = 0.05;            
+            protected static double TimeOut = 1; 
+            protected static double OffSet = 0.0; 
+            protected static double SensorToMechanismRatio = 1.0;
+            protected static double RotorToSensorRatio = 1.0;
+
         }
 
     public class States {
@@ -27,7 +36,8 @@ public class ArmConstants {
 
         }
 
-    public static int canId = 22;
+    public static int motorCanId = 22;
+    public static int CCCanId = 21;
 
     public static TalonFXConfiguration motorConfig() {
         return new TalonFXConfiguration()
@@ -46,7 +56,23 @@ public class ArmConstants {
                     .withInverted(InvertedValue.CounterClockwise_Positive)
                     .withNeutralMode(NeutralModeValue.Brake))
             .withSlot0( 
-                new Slot0Configs().withKP(Control.kP).withKV(Control.kV));
+                new Slot0Configs().withKP(Control.kP).withKV(Control.kV))
+            .withFeedback(
+                new FeedbackConfigs()
+                    .withFeedbackSensorSource(FeedbackSensorSourceValue.FusedCANcoder)
+                    .withFeedbackRemoteSensorID(CCCanId)
+                    .withSensorToMechanismRatio(Control.SensorToMechanismRatio)
+                    .withRotorToSensorRatio(Control.RotorToSensorRatio)
+            );
     }
 
+    public static CANcoderConfiguration CCConfig(){
+        CANcoderConfiguration CCConfig = new CANcoderConfiguration();
+        CCConfig.MagnetSensor.SensorDirection = SensorDirectionValue.CounterClockwise_Positive;
+        CCConfig.MagnetSensor.withMagnetOffset(Control.OffSet);
+        return CCConfig;
+
+    }
+
+    
 }
