@@ -12,6 +12,10 @@ import com.ctre.phoenix6.signals.FeedbackSensorSourceValue;
 import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.ctre.phoenix6.signals.SensorDirectionValue;
+import edu.wpi.first.units.measure.Angle;
+import edu.wpi.first.units.measure.Time;
+
+import static edu.wpi.first.units.Units.*;
 
 public class ArmConstants {
 
@@ -22,17 +26,17 @@ public class ArmConstants {
             protected static double kP = 0.0;
             protected static double kV = 0.0;
             
-            protected static double AcceptedError = 0.002;            
-            protected static double TimeOut = 1; 
-            protected static double OffSet = 0.0; 
+            protected static Angle AcceptedError = Degrees.of(1);            
+            protected static Time TimeOut = Seconds.of(1); 
+            protected static Angle OffSet = Degrees.of(0); 
             protected static double SensorToMechanismRatio = 1.0;
-            protected static double RotorToSensorRatio = 0.90625;
+            protected static double RotorToSensorRatio = 30/35;
 
         }
 
     public class States {
-            public static double Position1 = 2.5;
-            public static double Position2 = 0.0;
+            public static Angle Position1 = Degree.of(90);
+            public static Angle Position2 = Degree.of(0);
 
         }
 

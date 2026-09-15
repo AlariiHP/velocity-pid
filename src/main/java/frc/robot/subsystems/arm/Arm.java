@@ -1,10 +1,14 @@
 package frc.robot.subsystems.arm;
 
+import static edu.wpi.first.units.Units.Degrees;
+
 import java.util.function.BooleanSupplier;
 import com.ctre.phoenix6.CANBus;
 import com.ctre.phoenix6.hardware.CANcoder;
 import com.ctre.phoenix6.controls.PositionVoltage;
 import com.overture.lib.motorcontrollers.OverTalonFX;
+
+import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -14,7 +18,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 public class Arm extends SubsystemBase{
     protected OverTalonFX armMotor;
     protected CANcoder armCC;
-    private double target;
+    private Angle target;
     
     public static CANBus canbus = new CANBus("rio");
 
@@ -29,38 +33,39 @@ public class Arm extends SubsystemBase{
         armCC.getConfigurator().apply(ArmConstants.CCConfig());
     }
     
-    public void setTarget(double targetSetter){
+    public void setTarget(Angle targetSetter){
         target = targetSetter;
     }
 
-    public double getTarget(){
+    public Angle getTarget(){
         return target;
     }
 
     
-    public Command setPosition(double rotations){
+    public Command setPosition(Angle rotations){
         return 
             runOnce(() -> setTarget(rotations)) 
             .andThen(run(() -> armMotor.setControl(positionRequest.withPosition(getTarget()))).until(() -> isFinished()));
     }
 
-    public double getPosition(){
-        return armMotor.getPosition().getValueAsDouble();
+    public Angle getPosition(){
+        return Degrees.of(armMotor.getPosition().getValueAsDouble());
     }
 
-    private double getError(){
-        return (Math.abs( getTarget() - getPosition()));
+    private Angle getError(){
+        Angle error = getTarget().minus(getPosition());
+        return Degrees.of(Math.abs(error.baseUnitMagnitude()));
     }
     
     private boolean isFinished(){
-        return getError() < ArmConstants.Control.AcceptedError;
+        return getError().baseUnitMagnitude() < ArmConstants.Control.AcceptedError.baseUnitMagnitude();
     }
     
     
     public void updateTelemetry(){
-        SmartDashboard.putNumber("Subsystems/Arm/Position", getPosition());
-        SmartDashboard.putNumber("Subsystems/Arm/Target", getTarget());
-        SmartDashboard.putNumber("Subsystems/Arm/Error", getError());
+        SmartDashboard.putNumber("Subsystems/Arm/Position", getPosition().baseUnitMagnitude());
+        SmartDashboard.putNumber("Subsystems/Arm/Target", getTarget().baseUnitMagnitude());
+        SmartDashboard.putNumber("Subsystems/Arm/Error", getError().baseUnitMagnitude());
         
     }
 

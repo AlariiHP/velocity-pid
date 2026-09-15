@@ -1,5 +1,8 @@
 package frc.robot.subsystems.shooter;
 
+import static edu.wpi.first.units.Units.RotationsPerSecond;
+import static edu.wpi.first.units.Units.Volts;
+
 import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
 import com.ctre.phoenix6.configs.MotorOutputConfigs;
 import com.ctre.phoenix6.configs.Slot0Configs;
@@ -8,6 +11,13 @@ import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.configs.VoltageConfigs;
 import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
+
+import edu.wpi.first.units.measure.AngularVelocity;
+import edu.wpi.first.units.measure.Voltage;
+import edu.wpi.first.units.VoltageUnit;
+
+
+
 
 public class ShooterConstants {
    
@@ -22,10 +32,11 @@ public class ShooterConstants {
         }
 
     public class States {
-            public static double VoltageOFF = 0.0;
-            public static double VoltageON = 4.0;
-            public static double VelocityOFF = 0.0;
-            public static double VelocityON = 45.0;
+        
+            public static Voltage VoltageOFF = Volts.of(0.0);
+            public static Voltage VoltageON = Volts.of(4);
+            public static AngularVelocity VelocityOFF = RotationsPerSecond.of(0);
+            public static AngularVelocity VelocityON = RotationsPerSecond.of(45);
 
 
         }
