@@ -5,6 +5,7 @@ import static edu.wpi.first.units.Units.Degrees;
 import java.util.function.BooleanSupplier;
 import com.ctre.phoenix6.CANBus;
 import com.ctre.phoenix6.hardware.CANcoder;
+import com.ctre.phoenix6.controls.MotionMagicVoltage;
 import com.ctre.phoenix6.controls.PositionVoltage;
 import com.overture.lib.motorcontrollers.OverTalonFX;
 
@@ -21,10 +22,12 @@ public class Arm extends SubsystemBase{
     private Angle target;
     
     public static CANBus canbus = new CANBus("rio");
-
+    
 
     
     protected final PositionVoltage positionRequest = new PositionVoltage(0.0);
+    protected final MotionMagicVoltage motionMagicRequest = new MotionMagicVoltage(0);
+
 
     public Arm(){
         
@@ -47,6 +50,13 @@ public class Arm extends SubsystemBase{
             runOnce(() -> setTarget(rotations)) 
             .andThen(run(() -> armMotor.setControl(positionRequest.withPosition(getTarget()))).until(() -> isFinished()));
     }
+
+    public Command setMotionMagic(Angle rotations){
+        return  
+            runOnce(() -> setTarget(rotations))
+            .andThen(run(() -> armMotor.setControl(motionMagicRequest.withPosition(target))).until(() -> isFinished()));
+    }
+    
 
     public Angle getPosition(){
         return Degrees.of(armMotor.getPosition().getValueAsDouble());

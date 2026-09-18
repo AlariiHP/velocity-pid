@@ -1,9 +1,7 @@
 package frc.robot.subsystems.shooter;
 
-import static edu.wpi.first.units.Units.RotationsPerSecond;
-import static edu.wpi.first.units.Units.Volts;
-
 import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
+import com.ctre.phoenix6.configs.MotionMagicConfigs;
 import com.ctre.phoenix6.configs.MotorOutputConfigs;
 import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.configs.SlotConfigs;
@@ -12,9 +10,13 @@ import com.ctre.phoenix6.configs.VoltageConfigs;
 import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
+import edu.wpi.first.units.measure.AngularAcceleration;
 import edu.wpi.first.units.measure.AngularVelocity;
+import edu.wpi.first.units.measure.Velocity;
 import edu.wpi.first.units.measure.Voltage;
+import edu.wpi.first.units.AngularAccelerationUnit;
 import edu.wpi.first.units.VoltageUnit;
+import static edu.wpi.first.units.Units.*;
 
 
 
@@ -27,6 +29,10 @@ public class ShooterConstants {
             protected static double kD = 0.0;
             protected static double kP = 0.6;
             protected static double kV = 0.12;
+
+            protected static AngularAcceleration AccelerationLimit = RadiansPerSecondPerSecond.of(0.0);
+            protected static AngularVelocity CruiseVelocity = RadiansPerSecond.of(0.0);
+            protected static Velocity<AngularAccelerationUnit> JerkLimit = RadiansPerSecondPerSecond.per(Second).of(0);
             
             protected static double AcceptedError = 1;
         }
@@ -60,6 +66,12 @@ public class ShooterConstants {
                     .withInverted(InvertedValue.CounterClockwise_Positive)
                     .withNeutralMode(NeutralModeValue.Brake))
             .withSlot0( 
-                new Slot0Configs().withKP(Control.kP).withKV(Control.kV));
+                new Slot0Configs().withKP(Control.kP).withKV(Control.kV))
+            .withMotionMagic(
+                new MotionMagicConfigs()
+                    .withMotionMagicCruiseVelocity(Control.CruiseVelocity)
+                    .withMotionMagicAcceleration(Control.AccelerationLimit)
+                    .withMotionMagicJerk(Control.JerkLimit)
+            );
     }
 }

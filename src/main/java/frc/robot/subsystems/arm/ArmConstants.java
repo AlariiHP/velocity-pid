@@ -3,6 +3,7 @@ package frc.robot.subsystems.arm;
 import com.ctre.phoenix6.configs.CANcoderConfiguration;
 import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
 import com.ctre.phoenix6.configs.FeedbackConfigs;
+import com.ctre.phoenix6.configs.MotionMagicConfigs;
 import com.ctre.phoenix6.configs.MotorOutputConfigs;
 import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.configs.SlotConfigs;
@@ -12,10 +13,19 @@ import com.ctre.phoenix6.signals.FeedbackSensorSourceValue;
 import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.ctre.phoenix6.signals.SensorDirectionValue;
+
+import edu.wpi.first.units.AngularAccelerationUnit;
 import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.units.measure.Time;
+import edu.wpi.first.units.measure.Velocity;
+import edu.wpi.first.units.measure.AngularAcceleration;
+import edu.wpi.first.units.measure.AngularVelocity;
+import edu.wpi.first.units.measure.AngularVelocity;
 
 import static edu.wpi.first.units.Units.*;
+
+
+
 
 public class ArmConstants {
 
@@ -25,6 +35,10 @@ public class ArmConstants {
             protected static double kD = 0.0;
             protected static double kP = 0.0;
             protected static double kV = 0.0;
+
+            protected static AngularAcceleration AccelerationLimit = RadiansPerSecondPerSecond.of(0.0);
+            protected static AngularVelocity CruiseVelocity = RadiansPerSecond.of(0.0);
+            protected static Velocity<AngularAccelerationUnit> JerkLimit = RadiansPerSecondPerSecond.per(Second).of(0);
             
             protected static Angle AcceptedError = Degrees.of(1);            
             protected static Time TimeOut = Seconds.of(1); 
@@ -66,7 +80,12 @@ public class ArmConstants {
                     .withFeedbackSensorSource(FeedbackSensorSourceValue.FusedCANcoder)
                     .withFeedbackRemoteSensorID(CCCanId)
                     .withSensorToMechanismRatio(Control.SensorToMechanismRatio)
-                    .withRotorToSensorRatio(Control.RotorToSensorRatio)
+                    .withRotorToSensorRatio(Control.RotorToSensorRatio))
+            .withMotionMagic(
+                new MotionMagicConfigs()
+                    .withMotionMagicCruiseVelocity(Control.CruiseVelocity)
+                    .withMotionMagicAcceleration(Control.AccelerationLimit)
+                    .withMotionMagicJerk(Control.JerkLimit)
             );
     }
 

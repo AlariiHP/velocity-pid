@@ -3,7 +3,7 @@ package frc.robot.subsystems.shooter;
 import java.util.function.BooleanSupplier;
 
 import com.ctre.phoenix6.CANBus;
-
+import com.ctre.phoenix6.controls.PositionVoltage;
 import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.controls.VoltageOut;
 import com.overture.lib.motorcontrollers.OverTalonFX;
@@ -21,6 +21,7 @@ public class Shooter extends SubsystemBase {
 
     protected final VoltageOut voltageRequest = new VoltageOut(0.0);
     protected final VelocityVoltage velocityRequest = new VelocityVoltage(0.0);
+    
 
     public Shooter(){
         
@@ -39,6 +40,8 @@ public class Shooter extends SubsystemBase {
     public Command setVoltage(double volts){
         return runOnce(() -> shooterMotor.setVoltage(volts));
     }
+
+    
 
     
     public Command setVelocity(double rps){
