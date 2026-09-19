@@ -1,6 +1,7 @@
 package frc.robot.subsystems.arm;
 
 import static edu.wpi.first.units.Units.Degrees;
+import static edu.wpi.first.units.Units.Rotations;
 
 import java.util.function.BooleanSupplier;
 import com.ctre.phoenix6.CANBus;
@@ -19,7 +20,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 public class Arm extends SubsystemBase{
     protected OverTalonFX armMotor;
     protected CANcoder armCC;
-    private Angle target;
+    private Angle target = Degrees.of(0.0);
     
     public static CANBus canbus = new CANBus("rio");
     
@@ -59,7 +60,7 @@ public class Arm extends SubsystemBase{
     
 
     public Angle getPosition(){
-        return Degrees.of(armMotor.getPosition().getValueAsDouble());
+        return Degrees.of(armMotor.getPosition().getValueAsDouble()*360);
     }
 
     private Angle getError(){
@@ -73,8 +74,8 @@ public class Arm extends SubsystemBase{
     
     
     public void updateTelemetry(){
-        SmartDashboard.putNumber("Subsystems/Arm/Position", getPosition().baseUnitMagnitude());
-        SmartDashboard.putNumber("Subsystems/Arm/Target", getTarget().baseUnitMagnitude());
+        SmartDashboard.putNumber("Subsystems/Arm/Position", getPosition().baseUnitMagnitude()*180/Math.PI);
+        SmartDashboard.putNumber("Subsystems/Arm/Target", getTarget().baseUnitMagnitude()*180/Math.PI);
         SmartDashboard.putNumber("Subsystems/Arm/Error", getError().baseUnitMagnitude());
         
     }
